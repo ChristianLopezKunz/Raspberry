@@ -31,25 +31,25 @@ namespace Raspberry.Controllers
             return await _context.Scanners.ToListAsync();
         }
 
-        // GET: api/Scanners/5
+        // GET: api/Scanners/id
         [HttpGet("{id}")]
         public async Task<ActionResult<Scanner>> GetScanner(int id)
         {
             if (_context.Scanners == null)
             {
-                return NotFound();
+                return NotFound("Context canot be null");
             }
             var scanner = await _context.Scanners.FindAsync(id);
 
             if (scanner == null)
             {
-                return NotFound();
+                return NotFound("No such scanner exists");
             }
 
-            return scanner;
+            return Ok(scanner);
         }
 
-        // PUT: api/Scanners/5
+        // PUT: api/Scanners/id
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutScanner(int id, Scanner scanner)
@@ -83,25 +83,21 @@ namespace Raspberry.Controllers
         // POST: api/Scanners
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Scanner>> PostTodoItem(Scanner scanner)
+        public async Task<ActionResult<Scanner>> PostScanner(Scanner scanner)
         {
+            if (scanner == null)
+            {
+                return BadRequest(scanner);
+            }
+            if (scanner.id == 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
             _context.Scanners.Add(scanner);
             await _context.SaveChangesAsync();
 
-            //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-            return CreatedAtAction(nameof(GetScanner), new { id = scanner.id }, scanner);
+            return Ok(scanner);
         }
-        //public async Task<ActionResult<Scanner>> PostScanner(Scanner scanner)
-        //{
-        //    if (_context.Scanners == null)
-        //    {
-        //        return Problem("Entity set 'ScanContext.Scanners'  is null.");
-        //    }
-        //    _context.Scanners.Add(scanner);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetScanner", new { scanner.id }, scanner);
-        //}
 
         // DELETE: api/Scanners/5
         [HttpDelete("{id}")]

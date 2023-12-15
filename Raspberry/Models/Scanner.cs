@@ -10,13 +10,13 @@ namespace Raspberry.Models
         [Required]
         public  DateTime DateTime { get; set; }
         [Required]
-        public int zealandid { get; set; }
+        public int zealandId { get; set; }
 
-        public Scanner(int id, DateTime dateTime, int zealandid)
+        public Scanner(int id, DateTime dateTime, int zealandId)
         {
             this.id = id;
             DateTime = dateTime;
-            this.zealandid = zealandid;
+            this.zealandId = zealandId;
         }
 
         public Scanner()
@@ -29,17 +29,17 @@ namespace Raspberry.Models
             return obj is Scanner scanner &&
                    id == scanner.id &&
                    DateTime == scanner.DateTime &&
-                   zealandid == scanner.zealandid;
+                   zealandId == scanner.zealandId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(id, DateTime, zealandid);
+            return HashCode.Combine(id, DateTime, zealandId);
         }
 
         public override string ToString()
         {
-            return $"{{{nameof(id)}={id.ToString()}, {nameof(DateTime)}={DateTime.ToString()}, {nameof(zealandid)}={zealandid.ToString()}}}";
+            return $"{{{nameof(id)}={id.ToString()}, {nameof(DateTime)}={DateTime.ToString()}, {nameof(zealandId)}={zealandId.ToString()}}}";
         }
     }
 }
